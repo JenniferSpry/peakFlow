@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Peaks from './data.csv';
 
 function component() {
     const element = document.createElement('div');
@@ -9,4 +10,6 @@ function component() {
     return element;
   }
   
+  console.log(Peaks);
+
   document.body.appendChild(component());

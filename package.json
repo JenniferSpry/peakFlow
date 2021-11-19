@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "csv-loader": "^3.0.3",
+    "html-webpack-plugin": "^5.5.0",
     "webpack": "^5.64.1",
     "webpack-cli": "^4.9.1"
   },
