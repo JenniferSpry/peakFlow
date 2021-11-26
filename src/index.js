@@ -4,8 +4,13 @@ import "./style.css"; // hack to get the css file loaded
 
 console.log(data)
 
-const svgElement = document.createElement('svg');
-document.body.appendChild(svgElement);
+const stateClasses = {
+    'Gut': 'state-1',
+    'Ok': 'state-2',
+    'Mittel': 'state-3',
+    'Mäßig': 'state-4',
+    'Schlecht': 'state-5'
+}
 
 const margin = 60;
 const width = 1000 - 2 * margin;
@@ -16,13 +21,6 @@ const svg = d3.select('svg');
 const chart = svg.append('g')
     .attr('transform', `translate(${margin}, ${margin})`);
 
-// var yScale = d3.scaleLinear()
-//     .range ([height, 0])
-//     .domain([0, 100]);
-
-// chart.append('g')
-//     .call(d3.axisLeft(yScale));
-
 const xScale = d3.scaleBand()
     .range([0, width])
     .domain(data.map((s) => s.timestamp))
@@ -32,30 +30,32 @@ chart.append('g')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale));
 
-// var svg = d3.select("svg"),
-//     margin = 200,
-//     width = svg.attr("width") - margin,
-//     height = svg.attr("height") - margin;
+const yScale = d3.scaleLinear()
+    .range([height, 0])
+    .domain([300, 600]);
 
-// var xScale = d3.scaleBand().range ([0, width]).padding(0.4),
-//     yScale = d3.scaleLinear().range ([height, 0]);
+const makeYLines = () => d3.axisLeft()
+    .scale(yScale)
 
-// var g = svg.append("g")
-//         .attr("transform", "translate(" + 100 + "," + 100 + ")");
+chart.append('g')
+    .call(d3.axisLeft(yScale));
 
-// xScale.domain(Test.map(function(d) { return d.year; }));
-// yScale.domain([0, d3.max(Test, function(d) { return d.value; })]);
+chart.append('g')
+    .attr('class', 'grid')
+    .call(makeYLines()
+      .tickSize(-width, 0, 0)
+      .tickFormat('')
+    )
 
-// g.append("g")
-// .attr("transform", "translate(0," + height + ")")
-// .call(d3.axisBottom(xScale));
+const barGroups = chart.selectAll()
+    .data(data)
+    .enter()
+    .append('g')
 
-// g.append("g")
-// .call(d3.axisLeft(yScale).tickFormat(function(d){
-//     return "$" + d;
-// }).ticks(10))
-// .append("text")
-// .attr("y", 6)
-// .attr("dy", "0.71em")
-// .attr("text-anchor", "end")
-// .text("value");
+barGroups
+    .append('rect')
+    .attr('class', (g) => stateClasses[g.state])
+    .attr('x', (g) => xScale(g.timestamp))
+    .attr('y', (g) => yScale(g.measurement1))
+    .attr('height', (g) => height - yScale(g.measurement1))
+    .attr('width', xScale.bandwidth())
