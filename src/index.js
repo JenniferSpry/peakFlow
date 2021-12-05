@@ -1,8 +1,13 @@
 import * as d3 from "d3";
 import data from './data.csv';
+import { extractKeyData } from './data-helper';
 import "./style.css"; // hack to get the css file loaded
 
 console.log(data)
+
+const keyData = extractKeyData(data);
+
+console.log(keyData);
 
 const stateClasses = {
     'Gut': 'state-1',
@@ -15,6 +20,7 @@ const stateClasses = {
 const margin = 60;
 const width = 1000 - 2 * margin;
 const height = 600 - 2 * margin;
+const measurementPadding = 30;
 
 const svg = d3.select('svg');
 
@@ -32,7 +38,10 @@ chart.append('g')
 
 const yScale = d3.scaleLinear()
     .range([height, 0])
-    .domain([300, 600]);
+    .domain([
+        keyData.lowestMeasurement - measurementPadding, 
+        keyData.highestMeasurement + measurementPadding
+    ]);
 
 const makeYLines = () => d3.axisLeft()
     .scale(yScale)

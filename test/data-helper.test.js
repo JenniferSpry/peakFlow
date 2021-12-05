@@ -1,38 +1,85 @@
-import { extractKeyData } from '../src/data-helper';
+import { extractKeyData, transformData } from '../src/data-helper';
+
+const highestMeasurement = 510;
+const lowestMeasurement = 380;
 
 const testData = [
   {
     measurement1: 509,
-    measurement2: null,
-    measurement3: null,
+    measurement2: 507,
+    measurement3: 480,
     meta: null,
     state: "Schlecht",
-    timestamp: "09.07.2021"
+    timestamp: "09.07.2021 08:00:17"
   },
   {
     measurement1: 475,
-    measurement2: 460,
+    measurement2: highestMeasurement,
     measurement3: 460,
     meta: null,
     state: "Ok",
-    timestamp: "09.09.2021 08:00:17",
+    timestamp: "09.07.2021 22:00:17",
   },
   {
     measurement1: 420,
     measurement2: 400,
-    measurement3: 390,
+    measurement3: lowestMeasurement,
     meta: null,
     state: "Mittel",
-    timestamp: "17.11.2021 07:55:44"
+    timestamp: "11.07.2021 07:55:44"
   }
 ]
 
 describe('extractKeyData', () => {
-  test('finds the earliest date', () => {
-    expect(extractKeyData(testData).earliestDate).toBe(testData[0].timestamp);
+  test('finds the lowest measurement', () => {
+    expect(extractKeyData(testData).lowestMeasurement).toBe(lowestMeasurement);
   });
 
-  test('finds the latest date', () => {
-    expect(extractKeyData(testData).latestDate).toBe(testData[testData.length-1].timestamp);
+  test('finds the highest measurement', () => {
+    expect(extractKeyData(testData).highestMeasurement).toBe(highestMeasurement);
   });
 });
+
+describe('transformData', () =>  {
+  test('adds missing days', () => {
+    const expectedResponse = {
+      '09.07.2021': {
+        measurements: [
+          {
+            measurement1: 509,
+            measurement2: 507,
+            measurement3: 480,
+            meta: null,
+            state: "Schlecht",
+            timestamp: "09.07.2021 08:00:17"
+          },
+          {
+            measurement1: 475,
+            measurement2: highestMeasurement,
+            measurement3: 460,
+            meta: null,
+            state: "Ok",
+            timestamp: "09.07.2021 22:00:17",
+          }
+        ]
+      },
+      '10.07.2021': {
+        measurements: []
+      },
+      '11.07.2021': {
+        measurements: [
+          {
+            measurement1: 420,
+            measurement2: 400,
+            measurement3: lowestMeasurement,
+            meta: null,
+            state: "Mittel",
+            timestamp: "11.07.2021 07:55:44"
+          }
+        ]
+      }
+    };
+
+    expect(transformData(testData)).toStrictEqual(expectedResponse);
+  })
+})
