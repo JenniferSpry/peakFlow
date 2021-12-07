@@ -1,13 +1,15 @@
 import * as d3 from "d3";
 import data from './data.csv';
-import { extractKeyData } from './data-helper';
+import { extractKeyData, transformData } from './data-helper';
 import "./style.css"; // hack to get the css file loaded
 
 console.log(data)
 
 const keyData = extractKeyData(data);
-
 console.log(keyData);
+
+const transformedData = transformData(data);
+console.log(transformedData);
 
 const stateClasses = {
     'Gut': 'state-1',
@@ -29,9 +31,10 @@ const chart = svg.append('g')
 
 const xScale = d3.scaleBand()
     .range([0, width])
-    .domain(data.map((s) => s.timestamp))
+    .domain(transformedData.map((d) => d.date))
     .padding(0.2)
 
+// create x scale
 chart.append('g')
     .attr('transform', `translate(0, ${height})`)
     .call(d3.axisBottom(xScale));
@@ -57,14 +60,17 @@ chart.append('g')
     )
 
 const barGroups = chart.selectAll()
-    .data(data)
+    .data(transformedData)
     .enter()
     .append('g')
 
 barGroups
     .append('rect')
-    .attr('class', (g) => stateClasses[g.state])
-    .attr('x', (g) => xScale(g.timestamp))
-    .attr('y', (g) => yScale(g.measurement1))
-    .attr('height', (g) => height - yScale(g.measurement1))
+    .filter(function(d){ 
+        return d.measurements.length > 0; 
+    })
     .attr('width', xScale.bandwidth())
+    .attr('height', (g) => height - yScale(g.measurements[0].measurement1))
+    .attr('class', (g) => stateClasses[g.measurements[0].state])
+    .attr('x', (g) => xScale(g.date))
+    .attr('y', (g) => yScale(g.measurements[0].measurement1))

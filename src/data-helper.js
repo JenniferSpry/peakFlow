@@ -21,7 +21,7 @@ export function transformData(data) {
         let day = toMomentDate(data[i].timestamp).format('DD.MM.YYYY');
         transformed[day].measurements.push(data[i]);
     };
-    return transformed;
+    return Object.keys(transformed).map((key) => { return {...transformed[key], date: key }});
 }
 
 function toMomentDate(dateString) {

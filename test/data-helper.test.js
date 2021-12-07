@@ -42,8 +42,9 @@ describe('extractKeyData', () => {
 
 describe('transformData', () =>  {
   test('adds missing days', () => {
-    const expectedResponse = {
-      '09.07.2021': {
+    const expectedResponse = [
+      {
+        date: '09.07.2021',
         measurements: [
           {
             measurement1: 509,
@@ -63,10 +64,12 @@ describe('transformData', () =>  {
           }
         ]
       },
-      '10.07.2021': {
+      {
+        date: '10.07.2021',
         measurements: []
       },
-      '11.07.2021': {
+      {
+        date: '11.07.2021',
         measurements: [
           {
             measurement1: 420,
@@ -78,7 +81,7 @@ describe('transformData', () =>  {
           }
         ]
       }
-    };
+    ];
 
     expect(transformData(testData)).toStrictEqual(expectedResponse);
   })
