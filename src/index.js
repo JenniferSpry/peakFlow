@@ -20,9 +20,10 @@ const stateClasses = {
 }
 
 const margin = 60;
-const width = 1000 - 2 * margin;
+const width = 1500 - 2 * margin;
 const height = 600 - 2 * margin;
 const measurementPadding = 30;
+const xScalePadding = 0.5;
 
 const svg = d3.select('svg');
 
@@ -32,7 +33,7 @@ const chart = svg.append('g')
 const xScale = d3.scaleBand()
     .range([0, width])
     .domain(transformedData.map((d) => d.date))
-    .padding(0.2)
+    .padding(xScalePadding)
 
 // create x scale
 chart.append('g')
@@ -64,13 +65,26 @@ const barGroups = chart.selectAll()
     .enter()
     .append('g')
 
+// display first measurement of the day
 barGroups
     .append('rect')
     .filter(function(d){ 
         return d.measurements.length > 0; 
     })
-    .attr('width', xScale.bandwidth())
+    .attr('width', xScale.bandwidth() / 2)
     .attr('height', (g) => height - yScale(g.measurements[0].measurement1))
     .attr('class', (g) => stateClasses[g.measurements[0].state])
     .attr('x', (g) => xScale(g.date))
     .attr('y', (g) => yScale(g.measurements[0].measurement1))
+
+// display second measurement of the day
+barGroups
+    .append('rect')
+    .filter(function(d){ 
+        return d.measurements.length > 1; 
+    })
+    .attr('width', xScale.bandwidth() / 2)
+    .attr('height', (g) => height - yScale(g.measurements[1].measurement1))
+    .attr('class', (g) => stateClasses[g.measurements[1].state])
+    .attr('x', (g) => xScale(g.date) + xScale.bandwidth() / 2)
+    .attr('y', (g) => yScale(g.measurements[1].measurement1))
