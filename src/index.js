@@ -68,6 +68,28 @@ const barGroups = chart.selectAll()
     .enter()
     .append('g')
 
+// display notes
+const noteBars = barGroups
+    .filter(function(d){ 
+        return d.measurements.filter(d => d.meta != null).reduce((sum, d) => {sum += ` ${d.meta}`}, '') == null; 
+    });
+
+noteBars
+    .append('line')
+        .attr('class', 'meta')
+        .attr('x1', (g) => xScale(g.date))
+        .attr('x2', (g) => xScale(g.date))
+        .attr('y1', height);
+
+noteBars
+    .append('text')
+        .attr('class', 'meta')
+        .attr("x", (g) => xScale(g.date) + 5)
+        .text((d) => { 
+            return d.measurements.filter(d => d.meta != null).map((d) => d.meta).join(''); 
+        });
+
+
 // display first measurement of the day
 barGroups
     .append('rect')
@@ -78,7 +100,7 @@ barGroups
     .attr('height', (g) => height - yScale(g.measurements[0].measurement1))
     .attr('class', (g) => stateClasses[g.measurements[0].state])
     .attr('x', (g) => xScale(g.date))
-    .attr('y', (g) => yScale(g.measurements[0].measurement1))
+    .attr('y', (g) => yScale(g.measurements[0].measurement1));
 
 // display second measurement of the day
 barGroups
@@ -90,4 +112,5 @@ barGroups
     .attr('height', (g) => height - yScale(g.measurements[1].measurement1))
     .attr('class', (g) => stateClasses[g.measurements[1].state])
     .attr('x', (g) => xScale(g.date) + xScale.bandwidth() / 2)
-    .attr('y', (g) => yScale(g.measurements[1].measurement1))
+    .attr('y', (g) => yScale(g.measurements[1].measurement1));
+

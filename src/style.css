@@ -67,3 +67,12 @@ line {
   stroke: #9FAAAE;
   stroke-opacity: 0.3;
 }
+
+text.meta {
+  fill: #3b658a;
+}
+
+line.meta {
+  stroke: #3b658a;
+  stroke-dasharray: 5;
+}

@@ -25,7 +25,7 @@ Built with help of tutorial from: https://blog.risingstack.com/d3-js-tutorial-ba
 * display values between minimum and maximum value only (incl padding)  ✅
 * display all days not just the ones in the data (between earliest and latest day)  ✅
 * display only months on x scale ✅
-* display notes (as lines behind the bars)
+* display notes (as lines behind the bars) ✅
 * add controls
     * max / lowest / average measurement
     * only morning / evening
