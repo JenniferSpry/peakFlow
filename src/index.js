@@ -21,6 +21,7 @@ const stateClasses = {
 
 var svg1 = document.getElementById('svg');
 
+const minMeasurement = 350;
 const margin = 60;
 const width = svg1.clientWidth - 2 * margin;
 const height = 600 - 2 * margin;
@@ -46,7 +47,7 @@ chart.append('g')
 const yScale = d3.scaleLinear()
     .range([height, 0])
     .domain([
-        keyData.lowestMeasurement - measurementPadding, 
+        keyData.lowestMeasurement + minMeasurement, 
         keyData.highestMeasurement + measurementPadding
     ]);
 
