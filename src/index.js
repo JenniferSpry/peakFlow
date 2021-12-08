@@ -40,7 +40,8 @@ const xScale = d3.scaleBand()
 // create x scale
 chart.append('g')
     .attr('transform', `translate(0, ${height})`)
-    .call(d3.axisBottom(xScale));
+    .call(d3.axisBottom(xScale)
+    .tickValues(transformedData.map((d) => d.date).filter(d => d.startsWith('01'))));
 
 const yScale = d3.scaleLinear()
     .range([height, 0])
