@@ -19,8 +19,10 @@ const stateClasses = {
     'Schlecht': 'state-5'
 }
 
+var svg1 = document.getElementById('svg');
+
 const margin = 60;
-const width = 1500 - 2 * margin;
+const width = svg1.clientWidth - 2 * margin;
 const height = 600 - 2 * margin;
 const measurementPadding = 30;
 const xScalePadding = 0.5;
