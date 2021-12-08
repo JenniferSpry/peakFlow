@@ -52,7 +52,8 @@ describe('transformData', () =>  {
             measurement3: 480,
             meta: null,
             state: "Schlecht",
-            timestamp: "09.07.2021 08:00:17"
+            timestamp: "09.07.2021 08:00:17",
+            max: 509
           },
           {
             measurement1: 475,
@@ -61,6 +62,7 @@ describe('transformData', () =>  {
             meta: null,
             state: "Ok",
             timestamp: "09.07.2021 22:00:17",
+            max:highestMeasurement
           }
         ]
       },
@@ -77,9 +79,10 @@ describe('transformData', () =>  {
             measurement3: lowestMeasurement,
             meta: null,
             state: "Mittel",
-            timestamp: "11.07.2021 07:55:44"
+            timestamp: "11.07.2021 07:55:44",
+            max: 420
           }
-        ]
+        ],
       }
     ];
 

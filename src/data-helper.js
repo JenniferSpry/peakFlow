@@ -9,6 +9,7 @@ export function extractKeyData(data) {
 }
 
 export function transformData(data) {
+    data.map((d) => d.max = maxMeasurement(d))
     const earliestDate = toMomentDate(data[0].timestamp);
     const latestDate = toMomentDate(data[data.length-1].timestamp);
     let transformed = {};
@@ -45,5 +46,13 @@ function findHighest(data) {
         result = day.measurement2 > result ? day.measurement2 : result;
         result = day.measurement3 > result ? day.measurement3 : result;
     });
+    return result;
+}
+
+function maxMeasurement(data) {
+    let result = 0;
+    result = data.measurement1 > result ? data.measurement1 : result;
+    result = data.measurement2 > result ? data.measurement2 : result;
+    result = data.measurement3 > result ? data.measurement3 : result;
     return result;
 }

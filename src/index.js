@@ -98,10 +98,10 @@ barGroups
         return d.measurements.length > 0; 
     })
     .attr('width', xScale.bandwidth() / 2)
-    .attr('height', (g) => height - yScale(g.measurements[0].measurement1))
+    .attr('height', (g) => height - yScale(g.measurements[0].max))
     .attr('class', (g) => stateClasses[g.measurements[0].state])
     .attr('x', (g) => xScale(g.date))
-    .attr('y', (g) => yScale(g.measurements[0].measurement1));
+    .attr('y', (g) => yScale(g.measurements[0].max));
 
 // display second measurement of the day
 barGroups
@@ -110,8 +110,8 @@ barGroups
         return d.measurements.length > 1; 
     })
     .attr('width', xScale.bandwidth() / 2)
-    .attr('height', (g) => height - yScale(g.measurements[1].measurement1))
+    .attr('height', (g) => height - yScale(g.measurements[1].max))
     .attr('class', (g) => stateClasses[g.measurements[1].state])
     .attr('x', (g) => xScale(g.date) + xScale.bandwidth() / 2)
-    .attr('y', (g) => yScale(g.measurements[1].measurement1));
+    .attr('y', (g) => yScale(g.measurements[1].max));
 
