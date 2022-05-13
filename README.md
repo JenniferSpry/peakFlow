@@ -2,7 +2,9 @@
 
 ## Project
 
-Takes peak flow values from astma testing tool and displays the results.
+Takes peak flow values from asthma testing tool and displays the results.
+
+An example can be found here: https://jenniferspry.github.io/peakFlow
 
 This MVP solution simply takes it's data from a csv file (see `src/data.csv`) and has to be redeployed when changes in the data should be displayed.
 
