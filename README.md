@@ -25,7 +25,7 @@ Refresh the `src/data.csv` with your actual data and build the project.
 
 ```
 npm install
-npm build
+npm run build
 ```
 
 Deploy the contents of the `/dist` folder to a server of your choice.
